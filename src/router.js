@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid';
+
 import Vue from 'vue';
 import Router from 'vue-router';
 import Menu from './views/Menu.vue';
@@ -9,17 +11,29 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
+            // main menu
             path: '/',
             name: 'home',
             component: Menu,
         },
         {
-            path: '/game',
+            // join game
+            path: '/game/:gameId',
             name: 'game',
-            // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
             component: () => import(/* webpackChunkName: "about" */ './views/Game.vue'),
+        },
+        {
+            // new game: generate a new game id and redirect
+            path: '/game',
+            redirect: () => {
+                const newGameId = nanoid();
+                return {
+                    name: 'game',
+                    params: {
+                        gameId: newGameId,
+                    },
+                };
+            },
         },
     ],
 });
