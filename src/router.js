@@ -20,7 +20,7 @@ export default new Router({
             // join game
             path: '/game/:gameId',
             name: 'game',
-            component: () => import(/* webpackChunkName: "about" */ './views/Game.vue'),
+            component: () => import(/* webpackChunkName: "game" */ './views/Game.vue'),
         },
         {
             // new game: generate a new game id and redirect

@@ -22,6 +22,15 @@ app.set('port', port);
 const server = http.createServer(app);
 
 /**
+ * Create socket.io server
+ */
+
+const io = require('socket.io')(server);
+
+// add socket listener stuff
+require('../game.js')(io);
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 
