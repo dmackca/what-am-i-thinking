@@ -3,14 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "nodemon server/bin/www",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint && vue-cli-service lint server"
   },
   "dependencies": {
     "buefy": "^0.8.0",
+    "cookie-parser": "~1.4.4",
     "core-js": "^2.6.5",
+    "debug": "~2.6.9",
+    "express": "^4.17.1",
+    "morgan": "~1.9.1",
     "nanoid": "^3.0.2",
+    "nodemon": "^2.0.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
   },
@@ -30,5 +38,8 @@
     "sass-loader": "^8.0.0",
     "vue-cli-plugin-buefy": "^0.3.7",
     "vue-template-compiler": "^2.6.10"
+  },
+  "engines": {
+    "node": "^12"
   }
 }
