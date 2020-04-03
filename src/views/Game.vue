@@ -12,7 +12,7 @@ export default {
     name: 'GameView',
 
     mounted() {
-        const socket = io();
+        const socket = io(process.env.VUE_APP_SOCKET_URL || null);
         socket.on('foo', (data) => {
             console.log('foo!', data);
         });
