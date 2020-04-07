@@ -4,7 +4,6 @@
         <h2>the <code>gameId</code> parameter is  <b>{{ gameId }}</b></h2>
         <p>there are {{ numPlayers }} in this room</p>
         <p># of guesses: {{ numGuesses }}</p>
-        <p>my guess: {{ guessInput }}, opponent's: {{ opponentGuess }}</p>
         <div
             v-if="roomJoined && opponentId"
             class="game-screen"
@@ -28,7 +27,6 @@
                 </div>
             </div>
 
-
             <b-field>
                 <b-input
                     v-model="guessInput"
@@ -38,6 +36,8 @@
                     @keyup.enter.native="sendGuess"
                 />
             </b-field>
+            <p v-if="guessTime"><i>waiting for your guess...</i></p>
+            <p v-if="!opponentGuess"><i>waiting for opponent's guess...</i></p>
         </div>
     </div>
 </template>
@@ -78,7 +78,7 @@ export default {
         numPlayers(val, prev) {
             console.log('player number changed');
             if (prev > val) {
-                this.$buefy.toast.open('a player left! game over!');
+                this.errorFatal('a player left! game over!');
             }
         },
     },
@@ -152,17 +152,17 @@ export default {
 
         sendGuess() {
             console.log('sendGuess!', this.guessInput);
+
+            if (!this.guessInput) {
+                console.log('blank! no!');
+                return false;
+            }
+
             this.guessTime = false;
             this.socket.emit('guess', {
                 guess: this.guessInput,
                 roomId: this.roomId,
             });
-
-            // set loading on input
-            // send it to the Server
-            // when both are received, clear loading, clear input
-            // if the guesses match, game over!
-            // if the guesses don't match, clear disabled and start over
         },
 
         checkGuesses() {
