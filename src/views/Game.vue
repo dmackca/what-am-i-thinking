@@ -35,9 +35,22 @@
                     :loading="!guessTime"
                     @keyup.enter.native="sendGuess"
                 />
+                <p class="control">
+                    <b-button
+                        type="is-primary"
+                        @click="sendGuess"
+                    >
+                        Send guess
+                    </b-button>
+                </p>
             </b-field>
-            <p v-if="guessTime"><i>waiting for your guess...</i></p>
-            <p v-if="!opponentGuess"><i>waiting for opponent's guess...</i></p>
+
+            <p v-if="guessTime">
+                <i>waiting for your guess...</i>
+            </p>
+            <p v-if="!opponentGuess">
+                <i>waiting for opponent's guess...</i>
+            </p>
         </div>
     </div>
 </template>
@@ -115,7 +128,6 @@ export default {
             if (playerId === this.opponentId) {
                 console.log('it was your opponent!');
                 this.opponentGuess = guess;
-
             } else {
                 console.log('but this was was not opponent', 'it was', playerId);
             }
@@ -169,7 +181,6 @@ export default {
             console.log('check guesses', this.guessInput, this.opponentGuess);
 
             if (this.guessInput && this.opponentGuess) {
-
                 this.guesses.push({
                     player: this.guessInput,
                     opponent: this.opponentGuess,
