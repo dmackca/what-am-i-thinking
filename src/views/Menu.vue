@@ -2,22 +2,31 @@
     <div class="main-menu page">
         <h1>This is the menu page</h1>
 
-        <ul>
-            <li>
-                <router-link to="/game/">
-                    New game
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="joinGamePath">
-                    Join game:
-                </router-link>
-                <b-input
-                    v-model="joinGameId"
-                    placeholder="room ID"
-                />
-            </li>
-        </ul>
+        <b-field>
+            <b-button
+                tag="router-link"
+                to="/game/"
+                type="is-primary"
+            >
+                New game
+            </b-button>
+        </b-field>
+
+        <b-field>
+            <b-input
+                v-model="joinGameId"
+                placeholder="room ID"
+            />
+            <p class="control">
+                <b-button
+                    tag="router-link"
+                    :to="joinGamePath"
+                    type="is-link"
+                >
+                    Join Game
+                </b-button>
+            </p>
+        </b-field>
 
         <img
             alt="Vue logo"
