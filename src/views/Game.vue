@@ -178,7 +178,10 @@ export default {
         },
 
         checkGuesses() {
-            console.log('check guesses', this.guessInput, this.opponentGuess);
+            // don't check guesses if it's still guessTime
+            if (this.guessTime) {
+                return;
+            }
 
             if (this.guessInput && this.opponentGuess) {
                 this.guesses.push({
