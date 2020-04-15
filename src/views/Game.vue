@@ -84,6 +84,8 @@
 <script>
 import io from 'socket.io-client';
 
+import { startConfetti } from '@/lib/confetti';
+
 export default {
     name: 'GameView',
 
@@ -242,6 +244,10 @@ export default {
                 });
 
                 if (this.guessInput.toLowerCase() === this.opponentGuess.toLowerCase()) {
+                    // start cheesy confetti drop effect
+                    startConfetti(3000, 160);
+
+                    // show congratulatory toast
                     this.$buefy.toast.open({
                         message: `you win! ${this.numGuesses} guesses`,
                         type: 'is-success',
