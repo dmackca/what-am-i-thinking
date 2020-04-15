@@ -168,8 +168,6 @@ export default {
             if (playerId === this.opponentId) {
                 console.log('it was your opponent!');
                 this.opponentGuess = guess;
-            } else {
-                console.log('but this was was not opponent', 'it was', playerId);
             }
             this.checkGuesses();
         });

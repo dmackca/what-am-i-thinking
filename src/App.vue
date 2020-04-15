@@ -2,13 +2,29 @@
     <div id="app">
         <div id="nav">
             <router-link to="/">
-                Home
+                "What am I thinking?" {{ appVersion }}
             </router-link>
         </div>
         <router-view />
     </div>
 </template>
 
-<style lang="scss">
+<script>
+import { version } from '../package.json';
 
+export default {
+    computed: {
+        appVersion() {
+            return `v${version}`;
+        },
+    },
+};
+</script>
+
+<style lang="scss">
+#app {
+    .version {
+
+    }
+}
 </style>

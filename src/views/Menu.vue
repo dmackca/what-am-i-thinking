@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { version } from '../../package.json';
+
 export default {
     data: () => ({
         joinGameId: '',
@@ -44,6 +46,10 @@ export default {
     computed: {
         joinGamePath() {
             return `/game/${this.joinGameId}`;
+        },
+
+        appVersion() {
+            return `v${version}`;
         },
     },
 };
