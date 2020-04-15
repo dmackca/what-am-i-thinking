@@ -45,7 +45,8 @@ export default {
 
     computed: {
         joinGamePath() {
-            return `/game/${this.joinGameId}`;
+            const joinGameId = this.joinGameId.trim();
+            return `/game/${joinGameId}`;
         },
 
         appVersion() {
