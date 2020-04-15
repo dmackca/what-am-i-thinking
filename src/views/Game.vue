@@ -27,11 +27,26 @@
                 </div>
             </div>
 
-            <b-field v-if="showNewGameButton">
+            <p
+                v-if="playerRequestedRematch"
+                class="content has-text-info"
+            >
+                Requested a rematch; waiting for your opponent...
+            </p>
+            <p
+                v-if="opponentRequestedRematch"
+                class="content has-text-info"
+            >
+                Your opponent requested a rematch!
+            </p>
+
+            <b-field v-if="showRematchButton">
                 You won!!!!!!!!!
                 <b-button
                     type="is-success"
-                    @click="reset"
+                    :disabled="playerRequestedRematch"
+                    :loading="playerRequestedRematch"
+                    @click="requestRematch"
                 >
                     Rematch
                 </b-button>
@@ -82,7 +97,9 @@ export default {
         guesses: [],
         guessInput: '',
         guessTime: true,
-        showNewGameButton: false,
+        showRematchButton: false,
+        playerRequestedRematch: false,
+        opponentRequestedRematch: false,
     }),
 
     computed: {
@@ -157,6 +174,19 @@ export default {
             this.checkGuesses();
         });
 
+        // receive rematch request
+        this.socket.on('request rematch', ({ playerId }) => {
+            console.log(playerId, 'requested rematch');
+
+            if (playerId === this.opponentId) {
+                this.opponentRequestedRematch = true;
+            }
+
+            if (this.playerRequestedRematch && this.opponentRequestedRematch) {
+                this.reset();
+            }
+        });
+
         // attempt to join room
         this.socket.emit('join room', this.gameId);
     },
@@ -219,7 +249,7 @@ export default {
                         type: 'is-success',
                         duration: 7000,
                     });
-                    this.showNewGameButton = true;
+                    this.showRematchButton = true;
                 } else {
                     // new round
                     this.guessInput = '';
@@ -227,6 +257,13 @@ export default {
                     this.guessTime = true;
                 }
             }
+        },
+
+        requestRematch() {
+            this.playerRequestedRematch = true;
+            this.socket.emit('request rematch', {
+                roomId: this.roomId,
+            });
         },
 
         /**
@@ -237,7 +274,14 @@ export default {
             this.guesses = [];
             this.guessInput = '';
             this.guessTime = true;
-            this.showNewGameButton = false;
+            this.showRematchButton = false;
+            this.playerRequestedRematch = false;
+            this.opponentRequestedRematch = false;
+
+            this.$buefy.toast.open({
+                message: 'starting a new game',
+                type: 'is-info',
+            });
         },
     },
 };

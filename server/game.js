@@ -43,6 +43,13 @@ module.exports = (io) => {
             });
         });
 
+        socket.on('request rematch', ({ roomId }) => {
+            console.log(playerId, 'requested rematch in', roomId);
+            io.in(roomId).emit('request rematch', {
+                playerId,
+            });
+        });
+
         // on player disconnection, notify the rooms they were in
         socket.on('disconnecting', () => {
             const { rooms } = socket;
