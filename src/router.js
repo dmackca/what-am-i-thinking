@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+import newId from 'kung-fu-id-generator';
 
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -26,7 +26,7 @@ export default new Router({
             // new game: generate a new game id and redirect
             path: '/game',
             redirect: () => {
-                const newGameId = nanoid();
+                const newGameId = newId();
                 return {
                     name: 'game',
                     params: {
