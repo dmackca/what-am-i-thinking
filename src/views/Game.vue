@@ -1,12 +1,12 @@
 <template>
-    <div class="game page">
+    <div class="game page container">
         <h1>This is the game page</h1>
         <h2>the <code>gameId</code> parameter is  <b>{{ gameId }}</b></h2>
         <p>there are {{ numPlayers }} in this room</p>
         <p># of guesses: {{ numGuesses }}</p>
-        <div
+        <section
             v-if="roomJoined && opponentId"
-            class="game-screen"
+            class="game-screen section"
         >
             joined the room! {{ roomId }}<br>
             my ID: {{ playerId }}<br>
@@ -27,6 +27,16 @@
                 </div>
             </div>
 
+            <b-field v-if="showNewGameButton">
+                You won!!!!!!!!!
+                <b-button
+                    type="is-success"
+                    @click="reset"
+                >
+                    Rematch
+                </b-button>
+            </b-field>
+
             <b-field>
                 <b-input
                     v-model="guessInput"
@@ -37,6 +47,7 @@
                 />
                 <p class="control">
                     <b-button
+                        :disabled="(!guessInput) || (!guessTime)"
                         type="is-primary"
                         @click="sendGuess"
                     >
@@ -46,12 +57,12 @@
             </b-field>
 
             <p v-if="guessTime">
-                <i>waiting for your guess...</i>
+                <i>waiting for <b class="has-text-primary">your guess...</b></i>
             </p>
             <p v-if="!opponentGuess">
                 <i>waiting for opponent's guess...</i>
             </p>
-        </div>
+        </section>
     </div>
 </template>
 
@@ -71,6 +82,7 @@ export default {
         guesses: [],
         guessInput: '',
         guessTime: true,
+        showNewGameButton: false,
     }),
 
     computed: {
@@ -84,6 +96,10 @@ export default {
 
         numGuesses() {
             return this.guesses.length;
+        },
+
+        currentGuessRound() {
+            return this.numGuesses + 1;
         },
     },
 
@@ -123,8 +139,15 @@ export default {
         });
 
         // receive guess
-        this.socket.on('player guessed', ({ guess, playerId }) => {
-            console.log('a player guessed', guess, playerId);
+        this.socket.on('player guessed', ({ guess, playerId, roundId }) => {
+            console.log('a player guessed!', playerId, roundId);
+
+            if (roundId !== this.currentGuessRound) {
+                console.log('player guessed for the wrong round!');
+                console.log('you\'re on %d and they\'re on %d', this.currentGuessRound, roundId);
+                this.errorFatal('some irreconcilable out-of-sync thing happened!');
+            }
+
             if (playerId === this.opponentId) {
                 console.log('it was your opponent!');
                 this.opponentGuess = guess;
@@ -163,7 +186,7 @@ export default {
         },
 
         sendGuess() {
-            console.log('sendGuess!', this.guessInput);
+            console.log('sendGuess!', this.guessInput, this.currentGuessRound);
 
             if (!this.guessInput) {
                 console.log('blank! no!');
@@ -174,6 +197,7 @@ export default {
             this.socket.emit('guess', {
                 guess: this.guessInput,
                 roomId: this.roomId,
+                roundId: this.currentGuessRound,
             });
         },
 
@@ -189,8 +213,13 @@ export default {
                     opponent: this.opponentGuess,
                 });
 
-                if (this.guessInput === this.opponentGuess) {
-                    this.$buefy.toast.open(`you win! ${this.numGuesses} guesses`);
+                if (this.guessInput.toLowerCase() === this.opponentGuess.toLowerCase()) {
+                    this.$buefy.toast.open({
+                        message: `you win! ${this.numGuesses} guesses`,
+                        type: 'is-success',
+                        duration: 7000,
+                    });
+                    this.showNewGameButton = true;
                 } else {
                     // new round
                     this.guessInput = '';
@@ -198,6 +227,17 @@ export default {
                     this.guessTime = true;
                 }
             }
+        },
+
+        /**
+         * reset state for a rematch
+         */
+        reset() {
+            this.opponentGuess = '';
+            this.guesses = [];
+            this.guessInput = '';
+            this.guessTime = true;
+            this.showNewGameButton = false;
         },
     },
 };

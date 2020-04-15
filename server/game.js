@@ -34,11 +34,12 @@ module.exports = (io) => {
             });
         });
 
-        socket.on('guess', ({ guess, roomId }) => {
-            console.log(playerId, 'guessed', guess, 'in', roomId);
+        socket.on('guess', ({ guess, roomId, roundId }) => {
+            console.log(playerId, 'guessed', guess, 'in', roomId, roundId);
             io.in(roomId).emit('player guessed', {
                 playerId,
                 guess,
+                roundId,
             });
         });
 
