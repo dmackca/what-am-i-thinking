@@ -19,7 +19,10 @@
         <p>...If you haven't played before, you'll pick it up!</p>
 
         <div class="has-text-centered">
-            <b-button type="is-primary" @click="$parent.close()">
+            <b-button
+                type="is-primary"
+                @click="$parent.close()"
+            >
                 Okay!
             </b-button>
         </div>
