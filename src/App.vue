@@ -1,30 +1,32 @@
 <template>
     <div
         id="app"
-        class="container"
+        class="section"
     >
-        <div id="nav">
-            <router-link to="/">
-                "What am I thinking?" {{ appVersion }}
-            </router-link>
-            <b-button
-                size="is-small"
-                type="is-info"
-                @click="showHowToPlay = true"
+        <div class="container">
+            <div id="nav">
+                <router-link to="/">
+                    "What am I thinking?" {{ appVersion }}
+                </router-link>
+                <b-button
+                    size="is-small"
+                    type="is-info"
+                    @click="showHowToPlay = true"
+                >
+                    Instructions
+                </b-button>
+            </div>
+            <router-view />
+            <b-modal
+                :active.sync="showHowToPlay"
+                trap-focus
+                aria-role="dialog"
+                aria-modal
+                width="25em"
             >
-                Instructions
-            </b-button>
+                <how-to-play />
+            </b-modal>
         </div>
-        <router-view />
-        <b-modal
-            :active.sync="showHowToPlay"
-            trap-focus
-            aria-role="dialog"
-            aria-modal
-            width="25em"
-        >
-            <how-to-play />
-        </b-modal>
     </div>
 </template>
 

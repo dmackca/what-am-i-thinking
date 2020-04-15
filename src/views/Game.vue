@@ -6,7 +6,7 @@
         <p># of guesses: {{ numGuesses }}</p>
         <section
             v-if="roomJoined && opponentId"
-            class="game-screen section"
+            class="game-screen"
         >
             joined the room! {{ roomId }}<br>
             my ID: {{ playerId }}<br>
