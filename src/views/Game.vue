@@ -1,5 +1,5 @@
 <template>
-    <div class="game page container">
+    <div class="game page">
         <h1>This is the game page</h1>
         <h2>the <code>gameId</code> parameter is  <b>{{ gameId }}</b></h2>
         <p>there are {{ numPlayers }} in this room</p>
