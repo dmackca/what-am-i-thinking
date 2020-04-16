@@ -95,9 +95,10 @@ export default {
         roomId: null,
         playerId: null,
         opponentId: null,
-        opponentGuess: '',
+        opponentGuess: '', // guess from server
         guesses: [],
         guessInput: '',
+        playerGuess: '', // guess from server
         guessTime: true,
         showRematchButton: false,
         playerRequestedRematch: false,
@@ -171,6 +172,12 @@ export default {
                 console.log('it was your opponent!');
                 this.opponentGuess = guess;
             }
+
+            if (playerId === this.playerId) {
+                console.log('it was you!');
+                this.playerGuess = guess;
+            }
+
             this.checkGuesses();
         });
 
@@ -237,13 +244,13 @@ export default {
                 return;
             }
 
-            if (this.guessInput && this.opponentGuess) {
+            if (this.playerGuess && this.opponentGuess) {
                 this.guesses.push({
-                    player: this.guessInput,
+                    player: this.playerGuess,
                     opponent: this.opponentGuess,
                 });
 
-                if (this.guessInput.toLowerCase() === this.opponentGuess.toLowerCase()) {
+                if (this.playerGuess.toLowerCase() === this.opponentGuess.toLowerCase()) {
                     // start cheesy confetti drop effect
                     startConfetti(3000, 160);
 
@@ -253,10 +260,14 @@ export default {
                         type: 'is-success',
                         duration: 7000,
                     });
+                    this.guessInput = '';
+                    this.playerGuess = '';
+                    this.opponentGuess = '';
                     this.showRematchButton = true;
                 } else {
                     // new round
                     this.guessInput = '';
+                    this.playerGuess = '';
                     this.opponentGuess = '';
                     this.guessTime = true;
                 }
@@ -277,6 +288,7 @@ export default {
             this.opponentGuess = '';
             this.guesses = [];
             this.guessInput = '';
+            this.playerGuess = '';
             this.guessTime = true;
             this.showRematchButton = false;
             this.playerRequestedRematch = false;
