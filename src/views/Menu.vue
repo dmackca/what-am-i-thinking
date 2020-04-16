@@ -22,16 +22,12 @@
                     tag="router-link"
                     :to="joinGamePath"
                     type="is-link"
+                    :disabled="!joinGameId"
                 >
                     Join Game
                 </b-button>
             </p>
         </b-field>
-
-        <img
-            alt="Vue logo"
-            src="../assets/logo.png"
-        >
     </div>
 </template>
 
