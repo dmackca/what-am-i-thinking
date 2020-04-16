@@ -1,21 +1,34 @@
 <template>
     <div class="game page">
-        <h1>This is the game page</h1>
-        <h2>the <code>gameId</code> parameter is  <b>{{ gameId }}</b></h2>
-        <p>there are {{ numPlayers }} in this room</p>
-        <p># of guesses: {{ numGuesses }}</p>
+        <div
+            v-if="waitingForOpponent"
+            class="waiting-for-opponent"
+        >
+            <h2 class="title is-2">
+                Waiting for your opponent...
+            </h2>
+            <div class="field content">
+                <p>
+                    Tell your opponent to join the room <code v-text="roomId" />, or send them this link:
+                </p>
+                <div class="control">
+                    <input
+                        class="input"
+                        :value="roomLink"
+                        readonly
+                        type="text"
+                        @click="({ target }) => target.select()"
+                    >
+                </div>
+            </div>
+        </div>
+
         <section
             v-if="roomJoined && opponentId"
             class="game-screen"
         >
-            joined the room! {{ roomId }}<br>
-            my ID: {{ playerId }}<br>
-            opponent ID: {{ opponentId }}<br>
-
-            <hr>
-
             <h1 class="title is-2">
-                Guesses
+                {{ numGuesses }} Guesses
             </h1>
             <div class="guesses">
                 <div
@@ -23,7 +36,7 @@
                     :key="`${player}-${opponent}`"
                     class="guess"
                 >
-                    Mine: <b>{{ player }}</b> / Theirs: <b>{{ opponent }}</b>
+                    Yours: <b>{{ player }}</b> / Theirs: <b>{{ opponent }}</b>
                 </div>
             </div>
 
@@ -91,6 +104,7 @@ export default {
 
     data: () => ({
         socket: null,
+        waitingForOpponent: true,
         numPlayers: 0,
         roomId: null,
         playerId: null,
@@ -121,11 +135,23 @@ export default {
         currentGuessRound() {
             return this.numGuesses + 1;
         },
+
+        roomLink() {
+            return window.location.href;
+        },
     },
 
     watch: {
         numPlayers(val, prev) {
             console.log('player number changed');
+            if (val === 2) {
+                this.waitingForOpponent = false;
+                this.$buefy.toast.open({
+                    message: 'Your opponent joined the game',
+                    type: 'is-info',
+                });
+            }
+
             if (prev > val) {
                 this.errorFatal('a player left! game over!');
             }
@@ -262,7 +288,6 @@ export default {
                     });
                     this.guessInput = '';
                     this.playerGuess = '';
-                    this.opponentGuess = '';
                     this.showRematchButton = true;
                 } else {
                     // new round

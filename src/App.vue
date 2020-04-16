@@ -15,6 +15,7 @@
                 >
                     Instructions
                 </b-button>
+                <hr>
             </div>
             <router-view />
             <b-modal
