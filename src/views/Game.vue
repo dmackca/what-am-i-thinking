@@ -34,13 +34,13 @@
             <h1 class="title is-2">
                 {{ numGuesses }} Guesses
             </h1>
-            <div class="guesses">
+            <div class="guesses content">
                 <div
-                    v-for="{ player, opponent } in guesses"
-                    :key="`${player}-${opponent}`"
+                    v-for="({ player, opponent }, roundId) in guesses"
+                    :key="roundId"
                     class="guess"
                 >
-                    Yours: <b>{{ player }}</b> / Theirs: <b>{{ opponent }}</b>
+                    Round {{ roundId + 1 }}) Yours: <b>{{ player }}</b> / Theirs: <b>{{ opponent }}</b>
                 </div>
             </div>
 
