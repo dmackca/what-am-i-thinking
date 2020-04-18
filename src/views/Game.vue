@@ -34,7 +34,10 @@
             <h1 class="title is-2">
                 {{ numGuesses }} Guesses
             </h1>
-            <div class="guesses content">
+            <div
+                class="guesses content"
+                :class="{ 'counting-down': showCountdown }"
+            >
                 <div
                     v-for="({ player, opponent }, roundId) in guesses"
                     :key="roundId"
@@ -42,7 +45,15 @@
                 >
                     Round {{ roundId + 1 }}) Yours: <b>{{ player }}</b> / Theirs: <b>{{ opponent }}</b>
                 </div>
+                <!-- show countdown animation on each "guessTime" -->
+                <transition name="fade">
+                    <countdown-animation
+                        v-if="showCountdown"
+                    />
+                </transition>
             </div>
+
+            <!-- only show latest guess? -->
 
             <p
                 v-if="playerRequestedRematch"
@@ -72,6 +83,7 @@
             <b-field>
                 <b-input
                     v-model="guessInput"
+                    class="guess-input"
                     placeholder="Your Guess"
                     :disabled="!guessTime"
                     :loading="!guessTime"
@@ -103,8 +115,14 @@ import io from 'socket.io-client';
 
 import { startConfetti } from '@/lib/confetti';
 
+import CountdownAnimation from '@/components/CountdownAnimation';
+
 export default {
     name: 'GameView',
+
+    components: {
+        CountdownAnimation,
+    },
 
     data: () => ({
         socket: null,
@@ -121,6 +139,7 @@ export default {
         showRematchButton: false,
         playerRequestedRematch: false,
         opponentRequestedRematch: false,
+        showCountdown: false,
     }),
 
     computed: {
@@ -268,13 +287,25 @@ export default {
             });
         },
 
-        checkGuesses() {
+        startCountdown() {
+            this.showCountdown = true;
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    this.showCountdown = false;
+                    resolve();
+                }, 2000);
+            });
+        },
+
+        async checkGuesses() {
             // don't check guesses if it's still guessTime
             if (this.guessTime) {
                 return;
             }
 
             if (this.playerGuess && this.opponentGuess) {
+                await this.startCountdown();
+
                 this.guesses.push({
                     player: this.playerGuess,
                     opponent: this.opponentGuess,
@@ -331,3 +362,27 @@ export default {
     },
 };
 </script>
+
+<style lang="scss">
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+
+.guesses {
+    position: relative;
+    min-height: 4rem;
+
+    &.counting-down {
+        .guess {
+            opacity: .3;
+        }
+    }
+}
+
+.guess-input {
+    width: 15rem;
+}
+</style>
