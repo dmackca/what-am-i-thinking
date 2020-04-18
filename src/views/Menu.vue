@@ -16,14 +16,14 @@
             <b-input
                 v-model="joinGameId"
                 placeholder="room ID"
+                @keyup.enter.native="joinGame"
                 @input="(val) => joinGameId = formatJoinGameId(val)"
             />
             <p class="control">
                 <b-button
-                    tag="router-link"
-                    :to="joinGamePath"
                     type="is-link"
                     :disabled="!joinGameId"
+                    @click="joinGame"
                 >
                     Join Game
                 </b-button>
@@ -52,6 +52,13 @@ export default {
     },
 
     methods: {
+        /**
+         * redirect to the game with the given joinGameId
+         */
+        joinGame() {
+            this.$router.push(this.joinGamePath);
+        },
+
         /**
          * reformat "join game" id value on input
          * @param  {String} val typed/pasted input
