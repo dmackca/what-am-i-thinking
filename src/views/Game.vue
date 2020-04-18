@@ -9,9 +9,10 @@
             </h2>
             <div class="field content">
                 <p>
-                    Tell your opponent to join the room <code v-text="roomId" />, or send them this link:
+                    Your game code is <code v-text="roomId" />
                 </p>
-                <div class="control">
+                <div class="control content">
+                    <label class="label">Send this link to your opponent:</label>
                     <input
                         class="input"
                         :value="roomLink"
@@ -20,6 +21,9 @@
                         @click="({ target }) => target.select()"
                     >
                 </div>
+                <p>
+                    The game will start when your opponent joins
+                </p>
             </div>
         </div>
 
