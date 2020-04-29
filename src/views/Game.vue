@@ -32,7 +32,7 @@
             class="game-screen"
         >
             <h1 class="title is-2">
-                {{ numGuesses }} Guesses
+                {{ numGuesses }} guesses
             </h1>
             <div
                 class="guesses content"
@@ -68,8 +68,11 @@
                 Your opponent requested a rematch!
             </p>
 
-            <b-field v-if="showRematchButton">
-                You won!!!!!!!!!
+            <div
+                v-if="showRematchButton"
+                class="content"
+            >
+                You won!!!!!!!!!<br>
                 <b-button
                     type="is-success"
                     :disabled="playerRequestedRematch"
@@ -78,13 +81,13 @@
                 >
                     Rematch
                 </b-button>
-            </b-field>
+            </div>
 
             <b-field>
                 <b-input
                     v-model="guessInput"
                     class="guess-input"
-                    placeholder="Your Guess"
+                    placeholder="Your guess"
                     :disabled="!guessTime"
                     :loading="!guessTime"
                     @keyup.enter.native="sendGuess"
@@ -101,10 +104,10 @@
             </b-field>
 
             <p v-if="guessTime">
-                <i>waiting for <b class="has-text-primary">your guess...</b></i>
+                <i>Waiting for <b class="has-text-primary">your guess...</b></i>
             </p>
             <p v-if="!opponentGuess">
-                <i>waiting for opponent's guess...</i>
+                <i>Waiting for opponent's guess...</i>
             </p>
         </section>
     </div>
@@ -166,7 +169,6 @@ export default {
 
     watch: {
         numPlayers(val, prev) {
-            console.log('player number changed');
             if (val === 2) {
                 this.waitingForOpponent = false;
                 this.$buefy.toast.open({
@@ -176,7 +178,7 @@ export default {
             }
 
             if (prev > val) {
-                this.errorFatal('a player left! game over!');
+                this.errorFatal('A player left! Game over!');
             }
         },
     },
@@ -188,42 +190,33 @@ export default {
         // handle change in number of players
         this.socket.on('number of players', ({ players }) => {
             this.numPlayers = players.length;
-            console.log('players updated:', players);
             if (players.length > 1) {
                 // find opponent's ID
                 const opponent = players.find((id) => id !== this.playerId);
-                console.log('opponent id is:', opponent);
                 this.opponentId = opponent;
             }
         });
 
         // on room join: start game
         this.socket.on('joined room', (data) => {
-            console.log('joined room!', data);
             this.roomId = data;
             this.playerId = this.socket.id;
         });
         this.socket.on('room already full', () => {
-            this.errorFatal('this game already has 2 players');
+            this.errorFatal('This game already has 2 players');
         });
 
         // receive guess
         this.socket.on('player guessed', ({ guess, playerId, roundId }) => {
-            console.log('a player guessed!', playerId, roundId);
-
             if (roundId !== this.currentGuessRound) {
-                console.log('player guessed for the wrong round!');
-                console.log('you\'re on %d and they\'re on %d', this.currentGuessRound, roundId);
-                this.errorFatal('some irreconcilable out-of-sync thing happened!');
+                this.errorFatal('Some irreconcilable out-of-sync thing happened!');
             }
 
             if (playerId === this.opponentId) {
-                console.log('it was your opponent!');
                 this.opponentGuess = guess;
             }
 
             if (playerId === this.playerId) {
-                console.log('it was you!');
                 this.playerGuess = guess;
             }
 
@@ -232,8 +225,6 @@ export default {
 
         // receive rematch request
         this.socket.on('request rematch', ({ playerId }) => {
-            console.log(playerId, 'requested rematch');
-
             if (playerId === this.opponentId) {
                 this.opponentRequestedRematch = true;
             }
@@ -248,9 +239,7 @@ export default {
     },
 
     beforeDestroy() {
-        console.log('beforeDestroy!');
         this.socket.close();
-        console.log('closed socket');
     },
 
     methods: {
@@ -272,10 +261,7 @@ export default {
         },
 
         sendGuess() {
-            console.log('sendGuess!', this.guessInput, this.currentGuessRound);
-
             if (!this.guessInput) {
-                console.log('blank! no!');
                 return false;
             }
 
@@ -285,6 +271,8 @@ export default {
                 roomId: this.roomId,
                 roundId: this.currentGuessRound,
             });
+
+            return true;
         },
 
         startCountdown() {
@@ -317,7 +305,7 @@ export default {
 
                     // show congratulatory toast
                     this.$buefy.toast.open({
-                        message: `you win! ${this.numGuesses} guesses`,
+                        message: `You win! ${this.numGuesses} guesses`,
                         type: 'is-success',
                         duration: 7000,
                     });
@@ -355,7 +343,7 @@ export default {
             this.opponentRequestedRematch = false;
 
             this.$buefy.toast.open({
-                message: 'starting a new game',
+                message: 'Starting a new game',
                 type: 'is-info',
             });
         },
