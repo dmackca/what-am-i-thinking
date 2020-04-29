@@ -1,21 +1,20 @@
 <template>
     <div class="main-menu page">
-        <h1>This is the menu page</h1>
-
         <b-field>
             <b-button
                 tag="router-link"
                 to="/game/"
                 type="is-primary"
+                size="is-large"
             >
-                New game
+                Host a <b>new game</b>
             </b-button>
         </b-field>
 
         <b-field>
             <b-input
                 v-model="joinGameId"
-                placeholder="room ID"
+                placeholder="game code"
                 @keyup.enter.native="joinGame"
                 @input="(val) => joinGameId = formatJoinGameId(val)"
             />
@@ -25,7 +24,7 @@
                     :disabled="!joinGameId"
                     @click="joinGame"
                 >
-                    Join Game
+                    <b>Join</b> a friend's game
                 </b-button>
             </p>
         </b-field>
@@ -86,3 +85,15 @@ export default {
     },
 };
 </script>
+
+<style lang="scss">
+.page.main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .field {
+        margin-bottom: 3em;
+    }
+}
+</style>

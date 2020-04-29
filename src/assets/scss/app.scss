@@ -20,7 +20,8 @@ $colors: map-merge($colors, $addColors);
 @import "~buefy/src/scss/buefy";
 
 // 4. Provide custom buefy overrides and site styles here
-@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap&text=What%20am%20I%20thinking%3F');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
 
 // Overrides
 
