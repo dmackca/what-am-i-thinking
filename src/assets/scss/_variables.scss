@@ -1,152 +1,102 @@
-// Included below are all the defined variables from Bulma
-// Modify as needed, removing the !default attribute.
+// custom colors
 
-// Colors
+$cbb-bg: #0099c7;
+$cbb-accent: #ffd600;
+$cbb-accent-dark: #f56517;
+$cbb-fg: #fcfcfc;
 
-$black:        hsl(0, 0%, 4%) !default;
-$black-bis:    hsl(0, 0%, 7%) !default;
-$black-ter:    hsl(0, 0%, 14%) !default;
+////////////////////////////////////////////////
+// CYBORG
+////////////////////////////////////////////////
+$grey-accent: hsl(0, 0%, 14%);
+$grey-darker: hsl(0, 0%, 21%);
+$grey-dark: hsl(0, 0%, 29%);
+$grey: hsl(0, 0%, 48%);
+$grey-light: hsl(0, 0%, 71%);
+$grey-lighter: hsl(0, 0%, 86%);
 
-$grey-darker:  hsl(0, 0%, 21%) !default;
-$grey-dark:    hsl(0, 0%, 29%) !default;
-$grey:         hsl(0, 0%, 48%) !default;
-$grey-light:   hsl(0, 0%, 71%) !default;
-$grey-lighter: hsl(0, 0%, 86%) !default;
+$primary: #ffd600;
+$primary-light: lighten($primary, 10);
+$primary-invert: $grey-accent;
 
-$white-ter:    hsl(0, 0%, 96%) !default;
-$white-bis:    hsl(0, 0%, 98%) !default;
-$white:        hsl(0, 0%, 100%) !default;
+$info: #8b64ce;
+// $success: $green !default;
+// $warning: $yellow !default;
+// $danger: $red !default;
 
-$orange:       hsl(14,  100%, 53%) !default;
-$yellow:       hsl(48,  100%, 67%) !default;
-$green:        hsl(141, 71%,  48%) !default;
-$turquoise:    hsl(171, 100%, 41%) !default;
-$cyan:         hsl(204, 86%,  53%) !default;
-$blue:         hsl(217, 71%,  53%) !default;
-$purple:       hsl(271, 100%, 71%) !default;
-$red:          hsl(348, 100%, 61%) !default;
+$link: #f56517;
 
-// Typography
+$white: #fff;
+$white-ter: #f5f5f5;
 
-$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
-$family-monospace: monospace !default;
-$render-mode: optimizeLegibility !default;
+$body-background-color: $cbb-bg;
+$background: $grey-darker;
+$footer-background-color: $background;
 
-$size-1: 3rem !default;
-$size-2: 2.5rem !default;
-$size-3: 2rem !default;
-$size-4: 1.5rem !default;
-$size-5: 1.25rem !default;
-$size-6: 1rem !default;
-$size-7: 0.75rem !default;
+$border: $grey-dark;
 
-$weight-light: 300 !default;
-$weight-normal: 400 !default;
-$weight-medium: 500 !default;
-$weight-semibold: 600 !default;
-$weight-bold: 700 !default;
+$title-color: $white;
+$subtitle-color: $white-ter;
+$subtitle-strong-color: $white-ter;
 
-// Responsiveness
+$text: $white;
+$text-light: lighten($text, 10);
+$text-strong: darken($text, 5);
 
-// The container horizontal gap, which acts as the offset for breakpoints
-$gap: 32px !default;
-// 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
-$tablet: 769px !default;
-// 960px container + 4rem
-$desktop: 960px + (2 * $gap) !default;
-// 1152px container + 4rem
-$widescreen: 1152px + (2 * $gap) !default;
-// 1344px container + 4rem;
-$fullhd: 1344px + (2 * $gap) !default;
+$box-color: $text;
+$box-background-color: $grey-accent;
+$box-shadow: none;
 
-// Miscellaneous
+$link-hover: $primary-light;
+$link-focus: $primary-light;
+$link-active: $primary-light;
+$link-hover-border: $grey-dark;
+$link-active-border: $grey;
 
-$easing: ease-out !default;
-$radius-small: 2px !default;
-$radius: 3px !default;
-$radius-large: 5px !default;
-$radius-rounded: 290486px !default;
-$speed: 86ms !default;
+$button-color: $text;
+$button-background-color: #111;
+$button-border-color: $grey-darker;
+$button-hover-color: $grey-lighter;
+$button-focus: $grey-light;
+$button-active-color: $grey-light;
 
-// Flags
+$input-color: $grey-darker;
+$input-icon-color: $grey;
+$input-icon-active-color: $input-color;
 
-$variable-columns: true !default;
+$table-color: $text;
+$table-head: $grey-lighter;
+$table-background-color: $grey-darker;
+$table-cell-border: 1px solid $grey-dark;
 
+$table-row-hover-background-color: $grey-dark;
+$table-striped-row-even-background-color: $grey-dark;
+$table-striped-row-even-hover-background-color: lighten($grey-dark, 4);
 
-// The default Bulma derived variables are declared below
+$pagination-border-color: $grey-darker;
+$pagination-disabled: $grey-light;
+$pagination-disabled-background-color: $grey-dark;
 
-$primary: $turquoise !default;
+$dropdown-content-background-color: $background;
+$dropdown-item-color: $text;
 
-$info: $cyan !default;
-$success: $green !default;
-$warning: $yellow !default;
-$danger: $red !default;
+$navbar-background-color: $body-background-color;
+$navbar-item-color: $white;
+$navbar-item-hover-color: $white;
+$navbar-item-hover-background-color: rgba($white, 0.12);
+$navbar-item-active-color: $link;
+$navbar-item-active-background-color: $navbar-item-hover-background-color;
 
-$light: $white-ter !default;
-$dark: $grey-darker !default;
+$navbar-dropdown-background-color: $body-background-color;
+$navbar-dropdown-item-hover-color: $white;
+$navbar-dropdown-item-hover-background-color: $navbar-item-hover-background-color;
+$navbar-dropdown-item-active-background-color: $navbar-item-hover-background-color;
+$navbar-dropdown-arrow: $white;
 
-// Invert colors
+$tabs-boxed-link-active-background-color: $body-background-color;
 
-$orange-invert: findColorInvert($orange) !default;
-$yellow-invert: findColorInvert($yellow) !default;
-$green-invert: findColorInvert($green) !default;
-$turquoise-invert: findColorInvert($turquoise) !default;
-$cyan-invert: findColorInvert($cyan) !default;
-$blue-invert: findColorInvert($blue) !default;
-$purple-invert: findColorInvert($purple) !default;
-$red-invert: findColorInvert($red) !default;
+$file-cta-background-color: $grey-darker;
 
-$primary-invert: $turquoise-invert !default;
-$info-invert: $cyan-invert !default;
-$success-invert: $green-invert !default;
-$warning-invert: $yellow-invert !default;
-$danger-invert: $red-invert !default;
-$light-invert: $dark !default;
-$dark-invert: $light !default;
+$progress-bar-background-color: $grey-dark;
 
-// General colors
-
-$background: $white-ter !default;
-
-$border: $grey-lighter !default;
-$border-hover: $grey-light !default;
-
-// Text colors
-
-$text: $grey-dark !default;
-$text-invert: findColorInvert($text) !default;
-$text-light: $grey !default;
-$text-strong: $grey-darker !default;
-
-// Code colors
-
-$code: $red !default;
-$code-background: $background !default;
-
-$pre: $text !default;
-$pre-background: $background !default;
-
-// Link colors
-
-$link: $blue !default;
-$link-invert: $blue-invert !default;
-$link-visited: $purple !default;
-
-$link-hover: $grey-darker !default;
-$link-hover-border: $grey-light !default;
-
-$link-focus: $grey-darker !default;
-$link-focus-border: $blue !default;
-
-$link-active: $grey-darker !default;
-$link-active-border: $grey-dark !default;
-
-// Typography
-
-$family-primary: $family-sans-serif !default;
-$family-code: $family-monospace !default;
-
-$size-small: $size-7 !default;
-$size-normal: $size-6 !default;
-$size-medium: $size-5 !default;
-$size-large: $size-4 !default;
+$panel-heading-background-color: $grey-dark;
